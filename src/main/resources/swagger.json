@@ -1,0 +1,582 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Parliament Browser API",
+    "version": "1.0.0",
+    "description": "Eine API zur Interaktion mit dem Parliament Browser Projekt."
+  },
+  "host": "localhost:4567",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/diagram": {
+      "get": {
+        "summary": "Seite zur Diagrammauswahl",
+        "description": "Liefert die Seite zur Auswahl eines Diagramms.",
+        "responses": {
+          "200": {
+            "description": "Seite erfolgreich geladen"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Startseite anzeigen",
+        "description": "Zeigt die Startseite der Anwendung.",
+        "responses": {
+          "200": {
+            "description": "HTML-Seite der Startseite.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "summary": "Startseite anzeigen",
+        "description": "Zeigt die Startseite der Anwendung.",
+        "responses": {
+          "200": {
+            "description": "HTML-Seite der Startseite.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/bar-chart": {
+      "get": {
+        "summary": "Generiert ein Horizontales Balkendiagramm",
+        "description": "Erstellt einen Balkendiagramm basierend auf Start- und Enddatum .",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Startdatum für den Balkendiagramm in Form tt.mm.jjjj."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Enddatum für den Balkendiagramm in Form tt.mm.jjjj."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balkendiagramm erfolgreich erstellt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/speaker-bar-chart": {
+      "get": {
+        "summary": "Generiert einen Balkendiagramm für Sprecher",
+        "description": "Erstellt einen Balkendiagramm für Sprecher basierend auf Start- und Enddatum.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Startdatum für das Balkendiagramm in Form tt.mm.jjjj."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Enddatum für das Balkendiagramm in Form tt.mm.jjjj."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balkendiagramm für Sprecher erfolgreich erstellt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/bubble-chart": {
+      "get": {
+        "summary": "Generiert ein Blasendiagramm",
+        "description": "Erstellt ein Blasendiagramm basierend auf Start- und Enddatum.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Startdatum für das Blasendiagramm in Form tt.mm.jjjj."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Enddatum für das Blasendiagramm in Form tt.mm.jjjj."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blasendiagramm erfolgreich erstellt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/sentiment-radar-chart": {
+      "get": {
+        "summary": "Generiert ein Radardiagramm",
+        "description": "Erstellt ein Radardiagramm basierend auf Start- und Enddatum.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Startdatum für das Radardiagramm in Form tt.mm.jjjj."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Enddatum für das Radardiagramm in Form tt.mm.jjjj."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Radardiagramm erfolgreich erstellt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/sunburst-topic": {
+      "get": {
+        "summary": "Generiert ein Sunburst-Diagramm für Themen",
+        "description": "Erstellt ein Sunburst-Diagramm für Themen basierend auf Start- und Enddatum.",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Startdatum für das Sunburst-Diagramm in Form tt.mm.jjjj."
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Das Enddatum für das Sunburst-Diagramm in Form tt.mm.jjjj."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sunburst-Diagramm für Themen erfolgreich erstellt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/progress": {
+      "get": {
+        "summary": "Gibt den Fortschritt des Downloads zurück.",
+        "responses": {
+          "200": {
+            "description": "Aktueller Fortschritt des Downloads.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "/file-name": {
+      "get": {
+        "summary": "Gibt den Dateinamen während des Downloads zurück.",
+        "responses": {
+          "200": {
+            "description": "Name der Datei.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/download-files": {
+      "get": {
+        "summary": "Download-Seite anzeigen.",
+        "responses": {
+          "200": {
+            "description": "HTML-Seite zum Starten des Downloads.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/start-download": {
+      "get": {
+        "summary": "Startet den Download.",
+        "description": "Initiiert den Download-Prozess und setzt den Download-Status auf aktiv.",
+        "responses": {
+          "200": {
+            "description": "Gibt den Fortschrittsstatus nach dem Start des Downloads zurück.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "download complete": {
+                  "type": "number",
+                  "description": "Der Fortschritt des Downloads nach dessen Abschluss."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stop-download": {
+      "get": {
+        "summary": "Stoppt den Download.",
+        "description": "Stoppt den laufenden Download-Prozess und setzt den Download-Status auf inaktiv.",
+        "responses": {
+          "200": {
+            "description": "Download wurde erfolgreich gestoppt.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "download stopped": {
+                  "type": "number",
+                  "description": "Der Fortschritt des Downloads zum Zeitpunkt des Stopps."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reden": {
+      "get": {
+        "summary": "Listet Reden und zugehörige Informationen auf",
+        "description": "Ruft eine Liste von Reden und zugehörige Informationen aus der Datenbank ab und stellt sie in einer gerenderten HTML-Seite dar.",
+        "responses": {
+          "200": {
+            "description": "Eine HTML-Seite mit einer Liste von Reden und zugehörigen Informationen.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/reden/:redeId": {
+      "get": {
+        "summary": "Ruft eine spezifische Rede ab",
+        "description": "Ruft Details zu einer spezifischen Rede basierend auf ihrer ID ab.",
+        "parameters": [
+          {
+            "name": "redeId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Die ID der abzurufenden Rede."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details der spezifischen Rede in einer gerenderten HTML-Seite.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Rede nicht gefunden."
+          }
+        }
+      }
+    },
+    "/rede/text": {
+      "get": {
+        "summary": "Sucht Reden basierend auf Text",
+        "description": "Sucht nach Reden, die einen bestimmten Text enthalten.",
+        "parameters": [
+          {
+            "name": "textQuery",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Der Text, nach dem innerhalb der Reden gesucht werden soll."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Eine Liste von Reden, die den Text enthalten, dargestellt auf einer HTML-Seite.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/redenSearch": {
+      "get": {
+        "summary": "Suche nach Reden basierend auf der Wahlperiode und Sitzung",
+        "description": "Stellt eine Suche nach Reden basierend auf der Wahlperiode und Sitzungsnummer bereit.",
+        "responses": {
+          "200": {
+            "description": "Eine Seite zur Durchführung der Suche, dargestellt als HTML.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/redenSearch/:sitzungsNr/:top": {
+      "get": {
+        "summary": "Suche nach Reden basierend auf TOP",
+        "description": "Stellt eine Suche nach Reden basierend auf einem spezifischen Tagesordnungspunkt (TOP) bereit.",
+        "parameters": [
+          {
+            "name": "sitzungsNr",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Die Sitzungsnummer, zu der der TOP gehört."
+          },
+          {
+            "name": "top",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Der Tagesordnungspunkt, nach dem gesucht werden soll."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ergebnisse der Suche, dargestellt auf einer HTML-Seite.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "summary": "Führt eine generische Suche durch",
+        "description": "Verarbeitet eine Suchanfrage basierend auf einem gegebenen Query-String und gibt die Suchergebnisse zurück.",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Der Suchbegriff, der für die Suche verwendet wird."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suchergebnisse basierend auf dem Query-String, dargestellt auf einer HTML-Seite.",
+            "schema": {
+              "type": "string",
+              "description": "HTML-String, der die Suchergebnisseite repräsentiert."
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "summary": "Login-Seite anzeigen",
+        "description": "Zeigt die Seite für den Benutzerlogin.",
+        "responses": {
+          "200": {
+            "description": "Login-Seite.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Benutzerlogin",
+        "description": "Überprüft die Benutzerdaten und führt den Login durch.",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Benutzername."
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Passwort."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Weiterleitung zur vorherigen Seite oder zur Login-Seite mit Fehlermeldung.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "summary": "Benutzerlogout",
+        "description": "Führt den Logout des Benutzers durch und entfernt die Session-Informationen.",
+        "responses": {
+          "200": {
+            "description": "Logout-Seite.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/createUser": {
+      "get": {
+        "summary": "Benutzererstellungsseite anzeigen",
+        "description": "Zeigt die Seite für die Erstellung eines neuen Benutzers.",
+        "responses": {
+          "200": {
+            "description": "Benutzererstellungsseite.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Neuen Benutzer erstellen",
+        "description": "Erstellt einen neuen Benutzer mit den angegebenen Daten.",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Benutzername."
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Passwort."
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Benutzerrolle."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Weiterleitung zur vorherigen Seite oder zur Benutzererstellungsseite mit Fehlermeldung.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/render-tex-file": {
+      "get": {
+        "summary": "Rendert eine TeX-Datei und konvertiert sie zu PDF",
+        "description": "Rendert eine LaTeX-Datei aus Protokollen und Reden, generiert daraus eine PDF und sendet diese als Antwort.",
+        "responses": {
+          "200": {
+            "description": "Generierte PDF der Protokolle und Reden.",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      }
+    },
+    "/view-protocol": {
+      "post": {
+        "summary": "Zeigt ein spezifisches Protokoll",
+        "description": "Ruft ein spezifisches Protokoll basierend auf einer Protokoll-ID ab, rendert eine LaTeX-Datei und generiert eine PDF.",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "protocolId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Die ID des abzurufenden Protokolls."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PDF des spezifischen Protokolls.",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      }
+    },
+    "/protocol-export": {
+      "get": {
+        "summary": "Exportiert Protokolle",
+        "description": "Ruft Protokolle aus der Datenbank ab und stellt eine Exportansicht als HTML zur Verfügung.",
+        "responses": {
+          "200": {
+            "description": "Exportansicht der Protokolle.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
