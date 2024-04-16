@@ -1,0 +1,548 @@
+
+%Laden Sie erstmal die Datei "tikz-uml.sty" hoch. Diese finden Sie entweder online auf OLAT, oder alternativ in diesem Ordner.
+
+
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor,rotating,picture,lipsum,xspace}
+\usepackage{graphics}
+\usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{ifthen}
+
+\usepackage{fontawesome}
+
+\usepackage{lmodern}
+
+
+\usepackage{tikz}
+\usetikzlibrary{topaths}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{shapes}
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\renewcommand{\familydefault}{\sfdefault}
+
+\thispagestyle{empty}
+\usepackage{tikz-uml}
+
+\begin{document}
+    
+    
+    \begin{tikzpicture}
+    
+    \begin{umlpackage}{org texttechnologylab project Singh Gurpreet}
+
+        %Das Package enthällt alle Controllers, um den Webservice zu starten.
+        \begin{umlpackage}{api}
+
+            \umlclass[x=13, y=11]{InsightBundestagApi}{
+            - homeController: HomeController\\
+            - filesController: DownloadFilesController\\
+            - searchController: SearchController\\
+            - diagrammController: DiagrammController\\
+            - redenController: RedenController\\
+            - adminController: AdminController\\
+            - latexController: LatexExportController\\
+            }{
+            * main(): void\\
+            }
+        
+                 \begin{umlpackage}{controllers}
+
+                 
+                    \umlclass[x=13, y=6]{AdminController}{
+                    - bundestagFactory: InsightBundestagFactory \\
+                    - dbHandler: MongoDBHandler \\
+                    }{
+                    + init(): void\\
+                    + hashPW(password: String): String\\
+                    }
+
+                    \umlclass[x=5, y=6]{DiagrammController}{
+                    - bundestagFactory: InsightBundestagFactory \\
+                    }{
+                    + init(): void\\
+                    }
+
+                    \umlclass[x=-3, y=6]{DownloadFilesController}{
+                    - bundestagFactory: InsightBundestagFactory \\
+                    }{
+                    + init(): void\\
+                    }
+
+                    \umlclass[x=19, y=6]{HomeController}{
+                    }{
+                    + init(): void\\
+                    }
+
+                    \umlclass[x=26, y=6]{LatexExportController}{
+                    - bundestagFactory: InsightBundestagFactory \\
+                    - freeMarkerEngine: FreeMarkerEngine\\
+                    }{
+                    + init(): void\\
+                    }
+
+                    \umlclass[x=35, y=6]{RedenController}{
+                    - bundestagFactory: InsightBundestagFactory \\
+                    }{
+                    + init(): void\\
+                    }
+
+                    \umlclass[x=43, y=6]{SearchController}{
+                    - bundestagFactory: InsightBundestagFactory \\
+                    }{
+                    + init(): void\\
+                    }
+
+
+                 
+                 
+                 \end{umlpackage}{controllers}
+        
+        \end{umlpackage}{api}
+
+        %Package - Stammdatenverwaltung
+        \begin{umlpackage}{data}
+
+        \begin{umlpackage}{impl}
+
+            \begin{umlpackage}{factory}
+
+                \umlinterface[x=10, y=-2]{InsightBundestagFactory}{}{
+                + getAbgeordnetenFromDB(): Set<Abgeordneter>\\
+                + getRedenFromDB() : Set<Rede>\\
+                + search(query: String): Map<String, Object>\\
+                + getProtokollenFromDB(): Set<Protokoll>\\
+                + getProtokollById(String protocolId): Set<Protokoll> \\
+                + getSpeakerIDFromBackup(String redeID) : String\\
+                + getPictureURL(String abgeordneterID) : String\\
+                + getFraktionName(String abgeordneterID): String\\
+                + getRedenFromText(String searchText): Set<Rede_MongoDB_Impl> \\
+                + getSitzungen(Integer wpNr): Set<Integer> \\
+                + getTOP(Integer wpNr, Integer sitzungsNr): Set<String> \\
+                + getRedenIDsFromTOP(Integer wpNr, Integer sitzungsNr, String top): Set<String> \\
+                + getBarChartData(String rede, String startDate, String endDate): Map<String, Integer> \\
+                + filterDocumentsByDate(): List<Document> 
+                + calculateSentimentAverages(): Map<String, Double>\\
+                + processDocumentsForSunburst(): Map<String, Object>\\
+                };
+                
+                \umlclass[x=10, y=-7]{InsightBundestagFactoryImpl}{
+                - dbConnectionHandler: MongoDBHandler;\\
+                }{
+                + InsightBundestagFactoryImpl()\\
+                };
+                
+            \end{umlpackage}
+
+            
+
+                \umlinterface [x=-8, y=-8] {Abgeordneter}{
+                }{
+                    + getName(): String \\
+                    + getVorname(): String \\
+                    + getNachname(): String \\
+                    + getOrtszusatz(): String \\
+                    + getAdelssuffix(): String \\
+                    + getAnrede() : String \\
+                    + getAkadTitel(): String \\
+                    + getGeburtsDatum(): Date \\
+                    + getGeburtsOrt(): String \\
+                    + getSterbeDatum(): Date \\
+                    + getGeschlecht(): String \\
+                    + getReligion(): String \\
+                    + getBeruf(): String \\
+                    + getVita(): String \\
+                    + getPartei(): Partei \\
+                    + getRedeDatum(): Date\\
+                    + listMandate(): Set<Mandat>\\
+            };
+
+                
+                \umlinterface [x=9, y=-12] {Rede}{
+            }{
+                    + getId(): String \\
+                    + getRedner(): Abgeordneter \\
+                    + getText(): String \\
+                    + getKommentar(): Set<Kommentar>\\
+                    
+            };
+
+               
+
+            \umlinterface [x=15, y=-12] {Protokoll}{
+            }{
+                    + getSitzungNummer(): int\\
+                    + getWahlperiode(): int \\
+                    + getSitzungDatun(): Date \\
+                    + getSitzungStart(): LocalTime\\
+                    + getSitzungEnde(): LocalTime\\
+                    
+            };
+            
+               
+                \umlinterface  [x=-3, y=-12]  {Tagesordnugspunkt}{
+            }{
+                    + getTopId(): String\\
+                    
+            };
+
+            \umlinterface  [x=2, y=-12]  {Kommentar}{
+            }{
+                    + getText(): String\\
+                    
+            };
+
+                %Fraktion
+                \umlinterface[x=24, y=-12]  {Fraktion}{
+            }{
+                    + getName(): String 
+                    
+            }; 
+
+                %Partei
+                \umlinterface[x=20, y=-12]  {Partei}{
+            }{
+                    + getName(): String 
+                    
+            }; 
+
+                %Ausschuss 
+                 \umlinterface [x=17.5, y=-8] {Ausschuss}{
+            }{
+                    + getName(): String 
+                    
+            };
+
+                \umlinterface[x=30, y=-11]{NLPDocument}{
+                
+                }{
+                    + getTokens(): List<Token>\\
+                    + getSentences(): List<Sentence>\\
+                    + getPOS(): List<POS>\\
+                    + getNouns(): List<String>\\
+                    + getDependency(): List<Dependency>\\
+                    + getNamedEntities(): List<NamedEntity>\\
+                }
+
+                %Mandat
+                \umlinterface [x=28, y=-6] {Mandat}{
+            }{
+                    + fromDate(): Date\\
+                    + toDate(): Date \\
+                    + getTyp(): String \\
+                    + getWahlperiode: Wahlperiode \\
+                    + getFraktionSet(): Set<Fraktion>
+                    
+            };
+
+                %Wahlperiode
+                \umlinterface [x=22, y=-8] {Wahlpeiorde}{
+            }{
+                    + getNummer(): int \\
+                    + getStartDatum(): Date \\
+                    + getEndeDatum(): Date
+                    
+            };
+
+
+
+
+              
+                
+     
+
+            %Packgae - models conatins respective Attributes
+            \begin{umlpackage}{mongodb}
+
+                % Abgerodneter MongoDB
+                \umlclass [x=-4, y=-28] {AbgeordneterMongoDBImpl}{
+                - documnet : Document \\
+                }{
+                + AbgeordneterMongoDBImpl(factory: InsightBundestagFactory, document: Document)
+                };
+
+                % Sitzung MongoDB
+                \umlclass [x=21, y=-26] {ProtokollMongoDBImpl}{
+                -- documnet : Document \\
+            }{
+            + SitzungMongoDBImpl(factory: InsightBundestagFactory, document: Document)
+            };
+
+                % Rede MongoDB 
+                \umlclass [x=13, y=-28]{RedeMongoDBImpl}{
+                - documnet : Document \\
+            }{
+            RedeMongoDBImpl(factory: InsightBundestagFactory, document: Document)
+            };
+
+                % Tagesordnungspunkt MongoDB
+                \umlclass  [x=4, y=-26]  {TagesordnungspunktMongoDBImpl}{
+                - documnet : Document \\
+            }{
+            + TagesordnungspunktMongoDBImpl(factory: InsightBundestagFactory, document: Document)
+            };
+                
+            \end{umlpackage}
+   
+        
+
+        \begin{umlpackage}{file}
+        
+            \umlclass [x=-5, y=-19] {AbgeordneterFileImpl}{
+                - nachname : String \\
+                - vorname :  String\\
+                - ortzusatz : String \\
+                - adelssuffix : String \\
+                - anrede : Stirng \\
+                - akadTitle : String \\
+                - geburtsdatum : Date \\
+                - geburtsort : String \\
+                - sterbedatum : Date \\
+                - geschlecht : String \\
+                - religion : String \\
+                - beruf : String \\
+                - vita : String \\
+                - partei : Partei \\
+                - mandatSet : Set<Mandat> \\
+                - mitglieschaftSet : Set<Mitgliedschaft> \\
+                - abstimmungSet : Set<Abstimmung> \\
+                - listObject : List<Object> \\
+                }{
+                + AbgeordneterFileImpl(partei: Partei, redeDatum: Date)\\
+                + AbgeordneterFileImpl(factory: InsightBundestagFactory)\\
+                + getAbgeordneterData(List<Document> documents) : List<Object> \\
+                + getAbgeordneten(Element aElement) : Abgeordneter \\
+                };
+
+            \umlclass [x=6, y=-22] {TagesordnungspunktFileImpl}{
+            - topId : String \\
+            - objectSet : Set<Object> \\
+            }{
+                + TagesordnungspunktFileImpl(factory: InsightBundestagFactory) \\
+                + getTagesordnungspunkteData(documents: Set<Document>) \\
+                + getTagesordnungspunkte(Element tElement)\\
+            };
+
+            \umlclass [x=15, y=-21]{RedeFileImpl}{
+            - redeId : String \\
+            - redner : Abgeordneter \\
+            - text : String \\
+            - kommentarSet : Set<Kommentar> \\
+            - redeDatum : Date \\
+            - objectSet : Set<Object> \\
+            }{
+            + RedeFileImpl(factory: InsightBundestagFactory)\\
+            + getRedenData(documents: Set<Document>) \\
+            + getReden(Element tElement)\\
+            };
+
+            \umlclass [x=24, y=-21]{ProtokollFileImpl}{
+            - sitzungNummer : int  \\
+            - wahlperiode : int \\
+            - sitzungStart : LocalTime\\
+            - sitzungEnde : LocalTime\\
+            - sitzungDatum : Date \\
+            - objectSet : Set<Object>\\
+            }{
+            + SitzungFileImpl(factory: InsightBundestagFactory) \\
+            + getSitzungData(documentSet: Set<Document>)\\
+            + getSitzung(element: Element)\\
+            };
+
+            \umlclass[x=24, y=-17]{FraktionFileImpl}{
+            - name: String \\
+            }{
+            + FraktionFileImpl(name: String)
+            };
+            \umlclass[x=15, y=-17]{ParteiFileImpl}{
+            - name: String \\
+            }{
+            + ParteiFileImpl(parteiName: String)
+            };
+            \umlclass[x=6, y=-17]{KommentarFileImpl}{
+            - text: String \\
+            }{
+            + KommentarFileImpl(text: String)
+            };
+            
+        \end{umlpackage}
+
+        \end{umlpackage}
+
+        \end{umlpackage}
+
+        \begin{umlpackage}{database}
+            \umlclass[x=40, y=-3]{MongoDBHandler}{
+            - mongoClient: MongoClient\\
+            - database: MongoDatabase\\
+            - aCollection: MongoCollection\\
+            - rCollection: MongoCollection \\
+            - tCollection: MongoCollection \\
+            - sCollection: MongoCollection \\
+            }{
+            + MongoDBHandler()\\
+            + loadProperties(): Properties\\
+            + getCollection(): MongoCollection\\
+            + saveAbgeordneter(): void \\
+            + saveRede(): void\\
+            + saveTagesordnungsPunkt(): void \\
+            + annotationsExist(): boolean\\
+            + updateRede(updatedRede: Rede)\\
+            + saveSitzung(): void\\
+            + countDocuments(): long \\
+            + insertDocument(): void \\
+            + readDocuments(): List<Document>\\
+            + updateDocument(): UpdateResult \\
+            + deleteDocuments(): DeleteResult\\
+            + aggregateDocuments() : void\\
+            };    
+        \end{umlpackage}
+
+     %helper - contains all the helper classes needed for the output
+        \begin{umlpackage}{helper}
+
+            %DirectoryReader return file lists which can be parsed accordingly
+            \umlclass [x=40,  y=-10 ] {DirectoryReader}{
+                - fileList : List<File> \\
+            }{
+                + DirectoryReader()\\
+                + directoryLoopForExcel(String path): List<File>\\
+                + directoryLoopForXML(String path): List<File>\\
+            }; 
+
+            %DUUI Helper helps to analyse the data with the help of docker driver
+            \umlclass [x=40,  y=-22 ] {NLP Implementation}{
+                - composer : DUUIComposer \\
+            }{
+                + analyseRede(rede : Rede): Jcas\\ 
+            }; 
+
+
+            %NodeHelper helps extracting a Node based on tag name and element
+            \umlclass [x=40,  y=-13 ] {NodeHelper}{
+            }{
+                + getTextValue(Element ele, String tagName): String\\
+                + getAttributeValue(Element ele, String attributeName)\\
+            };
+
+            %Helpclass for string formatting 
+            \umlclass [x=40,  y=-15 ] {StringParser}{
+            }{
+            };
+
+            %XMLReader reads XML Files and process them to in list of Objects
+            \umlclass [x=40,  y=-18 ] {XMLReader}{
+                - documentList: List<Doument>
+            }{
+                + XMLReader()\\
+                + parseFiles(List<File> fileList): List<Document>\\
+                + processDocument(Document doc, String tagName, List<Object>)
+            };
+
+            %importer packgae - alle classes which helped in getting the files and images from the bundestag open date website
+            \begin{umlpackage}{importers}
+
+                \umlclass[x=40, y=-25]{AbgeordneterImporter}{
+                }{
+                + unzip(): void\\
+                + extractFile(): void\\
+                };
+
+                \umlclass[x=40, y=-29]{BildImporter}{}{
+                + importBilder(): Set<Bild>\\
+                + extractMetadata(caption:String): String\\
+                };
+
+                \umlclass[x=40, y=-32]{RedenImporter}{}{
+                + init(): void\\
+                + downloadRedenFiles():Set<Files>\\
+                + downloadFile(fileUrl: String, dd: String): File\\
+                + copyFileToDownloads(dd: String): void
+                };
+                
+            \end{umlpackage}
+        \end{umlpackage}
+
+        \begin{umlpackage}{exceptions}
+        
+            %extends BundestagException
+            \umlclass [x=40, y=-37] {InvalidFileTypeException}{
+            }{
+            }; 
+            %extends BundestagException
+            \umlclass [x=40, y=-39] {InvalidInputException}{
+            }{
+            }; 
+            %extends BundestagException
+            \umlclass [x=40, y=-41] {DatumnichtgefundenException}{
+            }{
+            }; 
+            
+            
+        \end{umlpackage}
+
+
+
+
+
+        %Alle Beziehungen
+
+        \umlimport {AbgeordneterFileImpl}{Abgeordneter}
+        \umlinherit {AbgeordneterMongoDBImpl}{AbgeordneterFileImpl}
+
+        \umlimport {TagesordnungspunktFileImpl}{Tagesordnugspunkt}
+        \umlinherit {TagesordnungspunktMongoDBImpl}{TagesordnungspunktFileImpl}
+
+        \umlimport {RedeFileImpl}{Rede}
+        \umlimport {RedeFileImpl}{NLPDocument}
+        \umlinherit {RedeMongoDBImpl}{RedeFileImpl}
+
+
+
+        \umlimport {ProtokollFileImpl}{Protokoll}
+        \umlinherit {ProtokollMongoDBImpl}{ProtokollFileImpl}
+
+        \umlimport {ParteiFileImpl}{Partei}
+        \umlimport{FraktionFileImpl}{Fraktion}
+        \umlimport{KommentarFileImpl}{Kommentar}
+
+        \umlimport{InsightBundestagFactoryImpl}{InsightBundestagFactory}
+
+
+        % Assoziationen
+                   
+                
+                    \umlaggreg[mult1 =1, mult2=1] {Abgeordneter}{Rede}
+                    \umlaggreg[mult1 =*, mult2=1] {Kommentar}{Rede}
+                    \umlassoc {Rede}{InsightBundestagFactoryImpl}
+                    \umlassoc {Abgeordneter}{InsightBundestagFactoryImpl}
+                    \umlassoc {Protokoll}{InsightBundestagFactoryImpl}
+                    \umlassoc {InsightBundestagFactory}{MongoDBHandler}
+
+
+                    \umlassoc {InsightBundestagApi}{AdminController}
+                    \umlassoc {InsightBundestagApi}{HomeController}
+                    \umlassoc {InsightBundestagApi}{LatexExportController}
+                    \umlassoc {InsightBundestagApi}{RedenController}
+                    \umlassoc {InsightBundestagApi}{SearchController}
+                    \umlassoc {InsightBundestagApi}{DiagrammController}
+                    \umlassoc {InsightBundestagApi}{DownloadFilesController}
+
+                    \umlassoc {MongoDBHandler}{AdminController}
+                    
+                    
+                    
+        
+ 
+                    
+    \end{umlpackage}
+    \end{tikzpicture}
+    
+\end{document}
